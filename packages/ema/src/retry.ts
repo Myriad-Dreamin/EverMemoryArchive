@@ -50,7 +50,7 @@ export class RetryConfig {
   }
 }
 
-class RetryExhaustedError extends Error {
+export class RetryExhaustedError extends Error {
   public lastException: Error;
   public attempts: number;
 
