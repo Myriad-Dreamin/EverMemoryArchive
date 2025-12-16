@@ -4,22 +4,20 @@ English | [中文](./README_CN.md)
 
 **EverMindAgent** is a framework for building AI agents.
 
-## Development
+## Getting Started
 
 ```bash
 pnpm install
 ```
 
-Run CLI:
+Run or develop application:
 
 ```bash
-pnpm ema
-```
-
-Run UI:
-
-```bash
-pnpm ema:ui
+pnpm start
 # or
-pnpm dev:ui
+pnpm dev
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
