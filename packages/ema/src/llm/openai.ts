@@ -65,14 +65,14 @@ export class OpenAIClient extends LLMClientBase {
    * @param tools - Optional list of tools
    * @returns OpenAI ChatCompletion response (full response including usage)
    */
-  async _make_api_request(
+  async _makeApiRequest(
     apiMessages: Record<string, unknown>[],
     tools?: Tool[]
   ): Promise<any> {
     return this.client.chat.completions.create({
       model: this.model,
       messages: apiMessages as any,
-      tools: tools ? this._convert_tools(tools) : undefined,
+      tools: tools ? this._convertTools(tools) : undefined,
     });
   }
 
@@ -82,7 +82,7 @@ export class OpenAIClient extends LLMClientBase {
    * @param tools - List of Tool objects or dicts
    * @returns List of tools in OpenAI dict format
    */
-  private _convert_tools(tools: Tool[]): any[] {
+  private _convertTools(tools: Tool[]): any[] {
     return tools.map((tool) => {
       if ("to_openai_schema" in tool) {
         return tool.to_openai_schema();
@@ -114,7 +114,7 @@ export class OpenAIClient extends LLMClientBase {
    * @param response - OpenAI ChatCompletion response (full response object)
    * @returns LLMResponse object
    */
-  async _parse_response(response: any): Promise<LLMResponse> {
+  async _parseResponse(response: any): Promise<LLMResponse> {
     // Gets message from response
     const message = response.choices[0].message;
     // Extracts text content
@@ -159,7 +159,7 @@ export class OpenAIClient extends LLMClientBase {
    * @param messages - List of internal Message objects
    * @returns Tuple of (system_message, api_messages)
    */
-  _convert_messages(
+  _convertMessages(
     messages: Message[]
   ): [string | undefined, Record<string, unknown>[]] {
     const apiMessages = messages.map((message) => {
@@ -219,12 +219,12 @@ export class OpenAIClient extends LLMClientBase {
    * @param tools - Optional list of available tools
    * @returns Dictionary containing request parameters
    */
-  async _prepare_request(
+  async _prepareRequest(
     messages: Message[],
     tools?: Tool[]
   ): Promise<{ apiMessages: Record<string, unknown>[]; tools?: Tool[] }> {
     // TODO: Why does mini-agent ignore systemMessage?
-    const [systemMessage, apiMessages] = this._convert_messages(messages);
+    const [systemMessage, apiMessages] = this._convertMessages(messages);
     return {
       apiMessages,
       tools,
@@ -239,25 +239,25 @@ export class OpenAIClient extends LLMClientBase {
    * @returns LLMResponse containing the generated content
    */
   async generate(messages: Message[], tools?: Tool[]): Promise<LLMResponse> {
-    const requestParams = await this._prepare_request(messages, tools);
+    const requestParams = await this._prepareRequest(messages, tools);
     if (this.retryConfig.enabled) {
       //             # Applies retry logic
       //             retry_decorator = asyncRetry(config=self.retry_config, on_retry=self.retry_callback)
-      //             api_call = retry_decorator(self._make_api_request)
+      //             api_call = retry_decorator(self._makeApiRequest)
       //             response = await api_call(
       //                 request_params["api_messages"],
       //                 request_params["tools"],
       //             )
       //   const retryDecorator = asyncRetry(this.retryConfig, this.retryCallback);
-      //   const apiCall = retryDecorator(this._make_api_request);
+      //   const apiCall = retryDecorator(this._makeApiRequest);
       //   const response = await apiCall(requestParams);
-      //   return this._parse_response(response);
+      //   return this._parseResponse(response);
       console.warn("Retry is not implemented");
     }
-    const response = await this._make_api_request(
+    const response = await this._makeApiRequest(
       requestParams.apiMessages,
       requestParams.tools
     );
-    return this._parse_response(response);
+    return this._parseResponse(response);
   }
 }
