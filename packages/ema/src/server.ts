@@ -2,8 +2,6 @@
  * The server class for the EverMindAgent.
  */
 export class Server {
-  constructor() {}
-
   /**
    * Handles user login and returns a user object.
    *
