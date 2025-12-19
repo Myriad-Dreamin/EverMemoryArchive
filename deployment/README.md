@@ -80,7 +80,7 @@ The compose file mounts several directories for hot-reloading:
 The following environment variables are configured for the app service:
 
 - `NODE_ENV=development`
-- `MONGODB_URI=mongodb://admin:password@mongodb:27017/EverMemoryArchive?authSource=admin`
+- `MONGODB_URI=mongodb://admin:password@mongodb:27017/ema?authSource=admin`
 
 You can override these by creating a `.env` file or modifying the `local.yml` file.
 
