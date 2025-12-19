@@ -1,7 +1,7 @@
 ## Project Structure
 
-- [`packages/ema`](/packages/ema): The core for the EverMindAgent.
-- [`packages/ema-ui`](/packages/ema-ui): The application for the EverMindAgent.
+- [`packages/ema`](/packages/ema): The core for the EverMemoryArchive.
+- [`packages/ema-ui`](/packages/ema-ui): The application for the EverMemoryArchive.
 
 ## Development Process
 
@@ -45,7 +45,7 @@ Both the core and application packages are developed using TypeScript.
 
 ### Core Development
 
-The core package focuses on providing the core functionality for the EverMindAgent frontend. It implements REST APIs for the frontend to interact with.
+The core package focuses on providing the core functionality for the EverMemoryArchive frontend. It implements REST APIs for the frontend to interact with.
 
 The core functionality includes:
 
@@ -54,6 +54,6 @@ The core functionality includes:
 
 ### Application Development
 
-The application package focuses on providing a web-based GUI for the EverMindAgent framework. It is a Next.js application that can be started by running `pnpm start`.
+The application package focuses on providing a web-based GUI for the EverMemoryArchive framework. It is a Next.js application that can be started by running `pnpm start`.
 
 - The server endpoints are exposed as REST APIs in the [`api`](/packages/ema-ui/src/app/api) folder.

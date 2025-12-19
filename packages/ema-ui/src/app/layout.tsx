@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "EverMindAgent",
-  description: "EverMindAgent UI",
+  title: "EverMemoryArchive",
+  description: "EverMemoryArchive UI",
 };
 
 export default function RootLayout({

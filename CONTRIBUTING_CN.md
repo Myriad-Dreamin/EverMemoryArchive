@@ -1,6 +1,6 @@
 # 贡献指南
 
-感谢您对 EverMindAgent 项目的关注!我们欢迎各种形式的贡献。
+感谢您对 EverMemoryArchive 项目的关注!我们欢迎各种形式的贡献。
 
 ## 如何贡献
 
@@ -32,8 +32,8 @@
 2. 克隆您的 fork:
 
    ```bash
-   git clone https://github.com/EmaFanClub/EverMindAgent
-   cd EverMindAgent
+   git clone https://github.com/EmaFanClub/EverMemoryArchive
+   cd EverMemoryArchive
    ```
 
 3. 创建新分支:
@@ -146,8 +146,8 @@
 
 通过贡献,您同意您的贡献将在 [Apache License 2.0](LICENSE) 下授权。
 
-***
+---
 
 再次感谢您的贡献!🎉
 
-***
+---

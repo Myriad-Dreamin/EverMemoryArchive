@@ -1,6 +1,6 @@
-# EverMindAgent Docker Deployment
+# EverMemoryArchive Docker Deployment
 
-This directory contains Docker Compose configurations for deploying EverMindAgent.
+This directory contains Docker Compose configurations for deploying EverMemoryArchive.
 
 ## Local Development with Docker
 
@@ -51,7 +51,6 @@ The `local.yml` compose file includes:
 - **MongoDB**: Database service running on port 27017
   - Default credentials: `admin/password`
   - Data persisted in Docker volume `mongodb_data`
-  
 - **App**: Node.js v24 application running the development server
   - Runs `pnpm dev` command
   - Accessible at `http://localhost:3000`
@@ -60,7 +59,7 @@ The `local.yml` compose file includes:
 
 ### Network
 
-Both services are connected via the `evermindagent-network` bridge network, allowing them to communicate using service names (e.g., the app can connect to MongoDB using `mongodb:27017`).
+Both services are connected via the `EverMemoryArchive-network` bridge network, allowing them to communicate using service names (e.g., the app can connect to MongoDB using `mongodb:27017`).
 
 ### Data Persistence
 
@@ -70,6 +69,7 @@ Both services are connected via the `evermindagent-network` bridge network, allo
 ### Volume Mounts
 
 The compose file mounts several directories for hot-reloading:
+
 - `packages/` - For source code changes
 - `node_modules/` - To share dependencies between host and container
 
@@ -80,7 +80,7 @@ The compose file mounts several directories for hot-reloading:
 The following environment variables are configured for the app service:
 
 - `NODE_ENV=development`
-- `MONGODB_URI=mongodb://admin:password@mongodb:27017/evermindagent?authSource=admin`
+- `MONGODB_URI=mongodb://admin:password@mongodb:27017/EverMemoryArchive?authSource=admin`
 
 You can override these by creating a `.env` file or modifying the `local.yml` file.
 

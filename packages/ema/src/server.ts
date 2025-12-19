@@ -4,7 +4,7 @@ import { createMongo, MongoRoleDB } from "./db";
 import type { RoleData, RoleDB } from "./db/base";
 
 /**
- * The server class for the EverMindAgent.
+ * The server class for the EverMemoryArchive.
  * todo: document what specific env are read.
  * todo: read all of the env in config.ts
  */

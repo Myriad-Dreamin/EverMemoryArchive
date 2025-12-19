@@ -7,11 +7,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/EmaFanClub/EverMindAgent.git",
+    "url": "git+https://github.com/EmaFanClub/EverMemoryArchive.git",
     "directory": "packages/ema"
   },
   "bugs": {
-    "url": "https://github.com/EmaFanClub/EverMindAgent/issues"
+    "url": "https://github.com/EmaFanClub/EverMemoryArchive/issues"
   },
   "exports": {
     ".": {

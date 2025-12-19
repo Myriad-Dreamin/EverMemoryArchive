@@ -1,6 +1,6 @@
 # Contributing Guide
 
-Thank you for your interest in the EverMindAgent project! We welcome contributions of all forms.
+Thank you for your interest in the EverMemoryArchive project! We welcome contributions of all forms.
 
 ## How to Contribute
 
@@ -32,8 +32,8 @@ If you have an idea for a new feature, please create an Issue first to discuss i
 2. Clone your fork:
 
    ```bash
-   git clone https://github.com/EmaFanClub/EverMindAgent
-   cd EverMindAgent
+   git clone https://github.com/EmaFanClub/EverMemoryArchive
+   cd EverMemoryArchive
    ```
 
 3. Create a new branch:
