@@ -66,6 +66,7 @@ export class Server {
     return server;
   }
 
+  // todo: replace this api with `create(config, fs)` in future.
   /**
    * Creates a Server instance with a pre-configured MongoDB instance for testing.
    * @param fs - File system implementation
