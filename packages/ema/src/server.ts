@@ -67,6 +67,19 @@ export class Server {
   }
 
   /**
+   * Creates a Server instance with a pre-configured MongoDB instance for testing.
+   * @param fs - File system implementation
+   * @param mongo - MongoDB instance
+   * @returns Promise resolving to the Server instance
+   */
+  static async createWithMongo(fs: Fs, mongo: Mongo): Promise<Server> {
+    const server = new Server(fs);
+    server.mongo = mongo;
+    server.roleDB = new MongoRoleDB(mongo);
+    return server;
+  }
+
+  /**
    * Initializes the MongoDB connection
    * @param uri - MongoDB connection string
    * @param dbName - MongoDB database name
