@@ -101,7 +101,9 @@ describe("Server with MemFs and snapshot functions", () => {
     await server.upsertRole(role3);
 
     const result = await server.snapshot("test-snapshot-r2r3");
-    expect(result.fileName).toBe(".data/mongo-snapshots/test-snapshot-r2r3.json");
+    expect(result.fileName).toBe(
+      ".data/mongo-snapshots/test-snapshot-r2r3.json",
+    );
 
     // Verify snapshot file was created
     const snapshotExists = await fs.exists(result.fileName);

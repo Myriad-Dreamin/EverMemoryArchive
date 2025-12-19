@@ -30,7 +30,9 @@ describe("MemFs", () => {
     const fs = new MemFs();
     const path = "/test/nonexistent.txt";
 
-    await expect(fs.read(path)).rejects.toThrow("File not found: /test/nonexistent.txt");
+    await expect(fs.read(path)).rejects.toThrow(
+      "File not found: /test/nonexistent.txt",
+    );
   });
 
   test("should overwrite existing file", async () => {
