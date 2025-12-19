@@ -59,7 +59,7 @@ The `local.yml` compose file includes:
 
 ### Network
 
-Both services are connected via the `EverMemoryArchive-network` bridge network, allowing them to communicate using service names (e.g., the app can connect to MongoDB using `mongodb:27017`).
+Both services are connected via the `ema-network` bridge network, allowing them to communicate using service names (e.g., the app can connect to MongoDB using `mongodb:27017`).
 
 ### Data Persistence
 
