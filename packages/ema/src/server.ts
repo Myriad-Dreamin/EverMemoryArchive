@@ -102,7 +102,11 @@ export class Server {
    */
   async snapshot(name: string): Promise<{ fileName: string }> {
     const fileName = this.snapshotPath(name);
-    const snapshot = await this.mongo.snapshot([this.roleDB]);
+
+    const dbs = [this.roleDB];
+    const collections = new Set<string>(dbs.flatMap((db) => db.collections));
+
+    const snapshot = await this.mongo.snapshot(Array.from(collections));
     await this.fs.write(fileName, JSON.stringify(snapshot, null, 1));
     return {
       fileName,

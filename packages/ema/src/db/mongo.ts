@@ -79,20 +79,16 @@ export abstract class Mongo {
   abstract close(): Promise<void>;
 
   /**
-   * Takes a snapshot of the MongoDB database and returns the snapshot data.
-   * @param dbs - The MongoDB database instances
+   * Takes a snapshot of the collections and returns the snapshot data.
+   * @param collections - The collection names to snapshot
    * @returns Promise<unknown> The snapshot data
    */
-  async snapshot(dbs: MongoCollectionGetter[]): Promise<unknown> {
-    const collections = Array.from(
-      new Set<string>(dbs.flatMap((db) => db.collections)),
-    ).sort();
-
+  async snapshot(collections: string[]): Promise<unknown> {
     const client = this.getClient();
     return await client.withSession(async () => {
       const snapshot: Record<string, unknown[]> = {};
       const db = client.db(this.dbName);
-      for (const name of collections) {
+      for (const name of collections.sort()) {
         snapshot[name] = await db.collection(name).find().toArray();
       }
       return snapshot;
