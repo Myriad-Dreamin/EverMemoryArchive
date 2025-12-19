@@ -54,8 +54,11 @@ export abstract class Mongo {
   /**
    * Gets the MongoDB database instance
    * @returns The MongoDB database instance
+   * @throws Error if not connected
    */
-  abstract getDb(): Db;
+  getDb(): Db {
+    return this.getClient().db(this.dbName);
+  }
 
   /**
    * Gets the MongoDB client instance

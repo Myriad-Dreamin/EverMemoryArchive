@@ -51,15 +51,6 @@ export class RemoteMongo extends Mongo {
   }
 
   /**
-   * Gets the MongoDB database instance
-   * @returns The MongoDB database instance
-   * @throws Error if not connected
-   */
-  getDb(): Db {
-    return this.client!.db(this.dbName);
-  }
-
-  /**
    * Gets the MongoDB client instance
    * @returns The MongoDB client instance
    * @throws Error if not connected
