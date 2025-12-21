@@ -46,7 +46,7 @@ export class SnapshotCreateCommand extends SnapshotCommand {
 
   static usage = Command.Usage({
     description: "Create a snapshot of the server",
-    details: `Create a snapshot of the server and save it to a file. When running in development mode, the server will restore the "default" snapshot after starting.`,
+    details: `Create a snapshot of the server. When running in development mode, the server will restore the "default" snapshot after starting.`,
     examples: [
       [
         "Create a default snapshot of the server (named 'default')",
@@ -84,7 +84,7 @@ export class SnapshotRestoreCommand extends SnapshotCommand {
 
   static usage = Command.Usage({
     description: "Restore a snapshot of the server",
-    details: `Restore a snapshot of the server from a file. When running in development mode, the server will restore the "default" snapshot after starting.`,
+    details: `Request the server to restore a snapshot by name. When running in development mode, the server will restore the "default" snapshot after starting.`,
     examples: [
       [
         "Restore a default snapshot of the server (named 'default')",
