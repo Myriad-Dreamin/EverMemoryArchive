@@ -1,31 +1,43 @@
 import { Command, Option } from "clipanion";
 import { fetch } from "undici";
 
-const post = async (url: string, body: any) =>
-  fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-
-export abstract class SnapshotCommand extends Command {
-  port = Option.String(`-p,--port`, "3000");
+abstract class SnapshotCommand extends Command {
+  port = Option.String(`-p,--port`);
   address = Option.String(`-a,--addr`);
 
   protected getUrl(): string {
-    if (!this.address && !this.port) {
-      throw new Error("Either --address or --port must be provided");
+    if (this.address && this.port) {
+      throw new Error("--address and --port cannot be provided together");
     }
     let url = this.address;
     if (!url) {
-      url = `http://localhost:${this.port}`;
+      url = `http://localhost:${this.port || "3000"}`;
     }
     return url;
   }
 }
 
+const post = async (url: string, body: Record<string, unknown>) => {
+  try {
+    return await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+  } catch (error) {
+    console.error(`Failed to communicate with the server at ${url}: ${error}`);
+    console.error(
+      `Hint: run "pnpm dev" or "pnpm build && pnpm start" to start a local server`,
+    );
+    process.exit(1);
+  }
+};
+
+/**
+ * Create a snapshot of the server
+ */
 export class SnapshotCreateCommand extends SnapshotCommand {
   static paths = [
     [`snapshot`, "create"],
@@ -54,13 +66,16 @@ export class SnapshotCreateCommand extends SnapshotCommand {
     const response = await post(`${this.getUrl()}/api/snapshot`, { name });
     const result: any = await response.json();
     if (result && result.fileName) {
-      console.log(`Snapshot saved to ${result.fileName}`);
+      console.log(`Snapshot created: ${result.fileName}`);
     } else {
-      console.error("Failed to save snapshot");
+      console.error("Failed to create snapshot");
     }
   }
 }
 
+/**
+ * Restore a snapshot of the server
+ */
 export class SnapshotRestoreCommand extends SnapshotCommand {
   static paths = [
     [`snapshot`, `restore`],
@@ -93,7 +108,7 @@ export class SnapshotRestoreCommand extends SnapshotCommand {
     if (result && result.message) {
       console.log(`Snapshot restored: ${result.message}`);
     } else {
-      console.error("Failed to save snapshot");
+      console.error("Failed to restore snapshot");
     }
   }
 }

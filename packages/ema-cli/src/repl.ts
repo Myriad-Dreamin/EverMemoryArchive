@@ -5,6 +5,9 @@ import { Command } from "clipanion";
 import { Agent, AgentEvents, Config } from "ema";
 import type { Tool } from "ema";
 
+/**
+ * Start a REPL session with the EMA agent
+ */
 export class ReplCommand extends Command {
   static paths = [[`repl`]];
 
