@@ -94,8 +94,13 @@ export class MongoLongTermMemoryDB implements LongTermMemoryDB {
 }
 
 /**
- * An adaptor to convert id results (from vector search) to long term memory entities
- * Uses vector search to find long term memories
+ * Abstract base class for MongoDB-backed long term memory search.
+ *
+ * This adaptor implements {@link LongTermMemorySearcher} by:
+ * - delegating to {@link MongoMemorySearchAdaptor.doSearch | doSearch} to perform
+ *   vector similarity search and return matching long term memory IDs, and
+ * - resolving those IDs into full {@link LongTermMemoryEntity} documents from
+ *   the underlying MongoDB collection.
  */
 export abstract class MongoMemorySearchAdaptor implements LongTermMemorySearcher {
   private readonly mongo: Mongo;
