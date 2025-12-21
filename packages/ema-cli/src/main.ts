@@ -1,6 +1,6 @@
 import { Cli, Builtins } from "clipanion";
 import { ReplCommand } from "./repl";
-import { DbSnapshotCommand, DbRestoreCommand } from "./db";
+import { SnapshotCreateCommand, SnapshotRestoreCommand } from "./db";
 
 const [_node, _app, ...args] = process.argv;
 
@@ -11,8 +11,8 @@ const cli = new Cli({
 });
 
 cli.register(ReplCommand);
-cli.register(DbSnapshotCommand);
-cli.register(DbRestoreCommand);
+cli.register(SnapshotCreateCommand);
+cli.register(SnapshotRestoreCommand);
 cli.register(Builtins.HelpCommand);
 cli.register(Builtins.VersionCommand);
 cli.runExit(args);

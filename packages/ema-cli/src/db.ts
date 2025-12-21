@@ -10,7 +10,7 @@ const post = async (url: string, body: any) =>
     body: JSON.stringify(body),
   });
 
-export abstract class DbCommand extends Command {
+export abstract class SnapshotCommand extends Command {
   port = Option.String(`-p,--port`, "3000");
   address = Option.String(`-a,--addr`);
 
@@ -26,17 +26,23 @@ export abstract class DbCommand extends Command {
   }
 }
 
-export class DbSnapshotCommand extends DbCommand {
-  static paths = [[`db`, `snapshot`]];
+export class SnapshotCreateCommand extends SnapshotCommand {
+  static paths = [
+    [`snapshot`, "create"],
+    [`snapshot`, "c"],
+  ];
 
   static usage = Command.Usage({
-    description: "Take a snapshot of the database",
-    details: "Takes a snapshot of the database and saves it to a file.",
+    description: "Create a snapshot of the server",
+    details: `Create a snapshot of the server and save it to a file. When running in development mode, the server will restore the "default" snapshot after starting.`,
     examples: [
-      ["Take a snapshot of the database", "ema db snapshot"],
       [
-        "Take a snapshot of the database with a custom name",
-        "ema db snapshot -n my-snapshot",
+        "Create a default snapshot of the server (named 'default')",
+        "ema snapshot c",
+      ],
+      [
+        "Create a snapshot of the server with a custom name",
+        "ema snapshot c -n my-snapshot",
       ],
     ],
   });
@@ -55,17 +61,23 @@ export class DbSnapshotCommand extends DbCommand {
   }
 }
 
-export class DbRestoreCommand extends DbCommand {
-  static paths = [[`db`, `restore`]];
+export class SnapshotRestoreCommand extends SnapshotCommand {
+  static paths = [
+    [`snapshot`, `restore`],
+    [`snapshot`, `r`],
+  ];
 
   static usage = Command.Usage({
-    description: "Restore a snapshot of the database",
-    details: "Restores a snapshot of the database from a file.",
+    description: "Restore a snapshot of the server",
+    details: `Restore a snapshot of the server from a file. When running in development mode, the server will restore the "default" snapshot after starting.`,
     examples: [
-      ["Restore a snapshot of the database", "ema db restore"],
       [
-        "Restore a snapshot of the database with a custom name",
-        "ema db restore -n my-snapshot",
+        "Restore a default snapshot of the server (named 'default')",
+        "ema snapshot r",
+      ],
+      [
+        "Restore a snapshot of the server with a custom name",
+        "ema snapshot r -n my-snapshot",
       ],
     ],
   });

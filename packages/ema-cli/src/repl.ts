@@ -10,7 +10,7 @@ export class ReplCommand extends Command {
 
   static usage = Command.Usage({
     description: "Start a REPL session with the EMA agent",
-    details: "Starts a REPL session with the EMA agent.",
+    details: "Start a REPL session with the EMA agent.",
     examples: [["Start a REPL session with the EMA agent", "ema repl"]],
   });
 
