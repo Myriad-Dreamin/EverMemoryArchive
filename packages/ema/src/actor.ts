@@ -229,7 +229,7 @@ export class ActorWorker implements ActorStateStorage, ActorMemory {
 }
 
 /**
- * The input to the actor.
+ * The input to the actor, including text, image, audio, video, etc.
  */
 export type ActorInput = ActorTextInput;
 
@@ -251,10 +251,15 @@ export interface ActorTextInput {
  * The response from the actor.
  */
 export interface ActorResponse {
+  /** A short status text of the actor. */
   status: ActorStatus;
+  /** The events from the actor. */
   events: ActorEvent[];
 }
 
+/**
+ * The status of the actor.
+ */
 export type ActorStatus = "running" | "idle";
 
 /**
