@@ -1,7 +1,7 @@
-import { createMongo } from "../src/db";
+import { DryMongoBinary, MongoBinary } from "mongodb-memory-server";
 
-// Create in-memory MongoDB instance for testing
-const mongo = await createMongo("", "test", "memory");
-await mongo.connect();
-
-console.log("MongoDB instance created");
+const options = await DryMongoBinary.generateOptions();
+await MongoBinary.download({ ...options, checkMD5: true });
+console.log(
+  `MongoDB binary (v${options.version}) downloaded to ${options.downloadDir}`,
+);
