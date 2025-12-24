@@ -4,6 +4,16 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./page.module.css";
 import type { Message } from "ema";
 
+// Type for actor events received via SSE
+interface ActorEvent {
+  type: string;
+  content?: {
+    response?: {
+      content?: string;
+    };
+  };
+}
+
 // todo: consider adding tests for this component to verify message state management
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([
@@ -28,7 +38,7 @@ export default function ChatPage() {
         
         // Process events from the actor
         if (response.events && Array.isArray(response.events)) {
-          response.events.forEach((evt: { type: string; content?: { response?: { content?: string } } }) => {
+          response.events.forEach((evt: ActorEvent) => {
             // Handle LLM response which contains the assistant's message
             if (evt.type === "llmResponseReceived" && evt.content?.response?.content) {
               currentAssistantMessageRef.current = evt.content.response.content;
@@ -37,7 +47,7 @@ export default function ChatPage() {
         }
 
         // Update loading state based on actor status
-        if (response.status === "idle" && isLoading) {
+        if (response.status === "idle") {
           // Actor finished processing, add the accumulated message
           if (currentAssistantMessageRef.current) {
             setMessages((prev) => [
@@ -65,7 +75,7 @@ export default function ChatPage() {
     return () => {
       eventSource.close();
     };
-  }, [isLoading]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -111,6 +121,8 @@ export default function ChatPage() {
         content: "Sorry, I encountered an error. Please try again.",
       };
       setMessages([...updatedMessages, errorMessage]);
+      currentAssistantMessageRef.current = "";
+      // Reset loading state since no SSE event will come if the request failed
       setIsLoading(false);
     }
   };
