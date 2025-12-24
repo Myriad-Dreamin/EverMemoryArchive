@@ -8,12 +8,12 @@ import * as k from "arktype";
 import { getQuery } from "../../utils";
 import type { ActorResponse } from "ema";
 
-const ActorWsRequest = k.type({
+const ActorSseRequest = k.type({
   userId: "string.numeric",
   actorId: "string.numeric",
 });
 
-export const GET = getQuery(ActorWsRequest)(async (body, req) => {
+export const GET = getQuery(ActorSseRequest)(async (body, req) => {
   const server = await getServer();
   const actor = await server.getActor(
     Number.parseInt(body.userId),
