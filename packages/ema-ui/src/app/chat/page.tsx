@@ -1,30 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import styles from "./page.module.css";
-import type { Message } from "ema";
-
-// Type for actor events received via SSE
-interface ActorEvent {
-  type: string;
-  content?: {
-    response?: {
-      content?: string;
-    };
-  };
-}
+import type { Message, ActorEvent } from "ema";
 
 // todo: consider adding tests for this component to verify message state management
 export default function ChatPage() {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "system",
-      content: "You are MeowGPT and reply to me cutely. You speak chinese.",
-    },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const currentAssistantMessageRef = useRef<string>("");
 
   // Set up SSE connection to subscribe to actor events
   useEffect(() => {
@@ -33,30 +17,29 @@ export default function ChatPage() {
     eventSource.onmessage = (event) => {
       try {
         const response = JSON.parse(event.data);
-        
+
         // Process events from the actor
         if (response.events && Array.isArray(response.events)) {
           response.events.forEach((evt: ActorEvent) => {
-            // Handle LLM response which contains the assistant's message
-            if (evt.type === "llmResponseReceived" && evt.content?.response?.content) {
-              currentAssistantMessageRef.current = evt.content.response.content;
+            console.log("evt", evt);
+
+            const content = evt.content;
+            // Handles LLM response which contains the assistant's message
+            if (
+              evt.type === "runFinished" &&
+              typeof content === "object" &&
+              "msg" in content
+            ) {
+              setMessages((prev) => [
+                ...prev,
+                { role: "assistant", content: content.msg },
+              ]);
             }
           });
         }
 
         // Update loading state based on actor status
         if (response.status === "idle") {
-          // Actor finished processing, add the accumulated message
-          if (currentAssistantMessageRef.current) {
-            setMessages((prev) => [
-              ...prev,
-              {
-                role: "assistant",
-                content: currentAssistantMessageRef.current,
-              },
-            ]);
-            currentAssistantMessageRef.current = "";
-          }
           setIsLoading(false);
         }
       } catch (error) {
@@ -120,14 +103,10 @@ export default function ChatPage() {
         content: "Sorry, I encountered an error. Please try again.",
       };
       setMessages([...updatedMessages, errorMessage]);
-      currentAssistantMessageRef.current = "";
       // Reset loading state since no SSE event will come if the request failed
       setIsLoading(false);
     }
   };
-
-  // Filter out system message for display
-  const displayMessages = messages.filter((msg) => msg.role !== "system");
 
   return (
     <div className={styles.container}>
@@ -136,13 +115,13 @@ export default function ChatPage() {
       </div>
 
       <div className={styles.chatArea}>
-        {displayMessages.length === 0 ? (
+        {messages.length === 0 ? (
           <div className={styles.emptyState}>
             Start a conversation with MeowGPT
           </div>
         ) : (
           <div className={styles.messages}>
-            {displayMessages.map((message, index) => (
+            {messages.map((message, index) => (
               // Consider adding a unique identifier to each message (e.g., timestamp or UUID) and use that as the key instead.
               <div
                 key={index}
