@@ -6,6 +6,7 @@ export default {
   title: "EverMemoryArchive",
   description:
     "EverMemoryArchive is a platform for creating and managing memory-based agents.",
+  base: '/EverMemoryArchive/',
   themeConfig: {
     sidebar: [
       // overview
