@@ -239,7 +239,7 @@ export class ActorWorker implements ActorStateStorage, ActorMemory {
  * The input to the actor, including text, image, audio, video, etc.
  */
 export interface ActorInputs {
-  metadata: any;
+  metadata?: any;
   inputs: ActorInput[];
 }
 
