@@ -263,6 +263,8 @@ export class ToolsConfig {
     public readonly enable_file_tools: boolean = true,
     /**
      * Whether to enable bash tools.
+     *
+     * For security reasons, bash tools are disabled by default (`false`).
      */
     public readonly enable_bash: boolean = false,
     /**
