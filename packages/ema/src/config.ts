@@ -183,6 +183,7 @@ export class LLMConfig {
     public readonly google: GoogleApiConfig = new GoogleApiConfig(),
     /**
      * Provider name used for chat agent.
+     * If environment variable EMA_CHAT_PROVIDER is set, it will be used first.
      *
      * @example
      * ```yaml
@@ -192,10 +193,6 @@ export class LLMConfig {
      *   google:
      *     key: "sk-1234567890"
      * ```
-     */
-    public readonly chat_provider: "google" | "openai" = "google",
-    /**
-     * Model name used for chat agent.
      *
      * @example
      * ```yaml
@@ -206,6 +203,22 @@ export class LLMConfig {
      *   google:
      *     key: "sk-1234567890"
      * ```
+     *
+     * @example
+     * ```env
+     * # Configure to use deepseek in .env
+     * EMA_CHAT_PROVIDER=openai
+     * EMA_CHAT_MODEL=deepseek-chat
+     * OPENAI_API_KEY=sk-1234567890
+     * OPENAI_API_BASE=https://api.deepseek.com
+     * ```
+     */
+    public readonly chat_provider: "google" | "openai" = "google",
+    /**
+     * Model name used for chat agent.
+     * If environment variable EMA_CHAT_MODEL is set, it will be used first.
+     *
+     * @see {@link EMA_CHAT_PROVIDER} for examples.
      */
     public readonly chat_model: string = "gemini-2.5-flash",
     /**
