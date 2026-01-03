@@ -4,16 +4,22 @@ import type { Dispatcher, RequestInit, Response } from "undici";
 import { ProxyAgent, fetch } from "undici";
 import { OpenAI } from "openai";
 
+// Uses proxy if HTTPS_PROXY or https_proxy is set
+const https_proxy = process.env.HTTPS_PROXY || process.env.https_proxy || "";
+
 /**
  * A common fetch implementation that uses a proxy if HTTPS_PROXY or https_proxy is set.
  */
 class FetchWithProxy {
   private readonly dispatcher: Dispatcher | undefined;
 
-  constructor() {
-    // Uses proxy if HTTPS_PROXY or https_proxy is set
-    const https_proxy =
-      process.env.HTTPS_PROXY || process.env.https_proxy || "";
+  constructor(
+    /**
+     * A proxy URL to use for the fetch.
+     * If empty, the requests are send without http proxy.
+     */
+    https_proxy: string,
+  ) {
     this.dispatcher = https_proxy ? new ProxyAgent(https_proxy) : undefined;
   }
 
@@ -74,7 +80,10 @@ async function genAiExample() {
   /**
    * The fetch should be optionally given by the classes who constructs `GenAI`
    */
-  const genAi = new GenAI(apiKey, new FetchWithProxy().createFetcher());
+  const genAi = new GenAI(
+    apiKey,
+    new FetchWithProxy(https_proxy).createFetcher(),
+  );
 
   // generate hello world
 
@@ -90,7 +99,7 @@ async function openAiExample() {
   const openAi = new OpenAI({
     apiKey,
     baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
-    fetch: new FetchWithProxy().createFetcher(),
+    fetch: new FetchWithProxy(https_proxy).createFetcher(),
   });
   const response = await openAi.chat.completions.create({
     model: "gemini-2.5-flash",
