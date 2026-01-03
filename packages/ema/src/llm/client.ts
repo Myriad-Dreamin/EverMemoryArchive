@@ -23,7 +23,7 @@ export class LLMClient {
     switch (this.config.chat_provider) {
       case LLMProvider.GOOGLE:
         if (!this.config.google.key) {
-          throw new Error("LLM API key is required.");
+          throw new Error("Google API key is required.");
         }
         this.client = new GoogleClient(
           this.config.chat_model,
@@ -32,12 +32,12 @@ export class LLMClient {
         );
         break;
       case LLMProvider.OPENAI:
-        if (!this.config.openai.key && !this.config.google.key) {
-          throw new Error("LLM API key is required.");
+        if (!this.config.openai.key) {
+          throw new Error("OpenAI API key is required.");
         }
         this.client = new OpenAIClient(
           this.config.chat_model,
-          this.config.openai || this.config.google,
+          this.config.openai,
           this.config.retry,
         );
         break;
