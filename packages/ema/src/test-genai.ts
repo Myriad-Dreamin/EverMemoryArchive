@@ -2,6 +2,7 @@ import { GoogleGenAI } from "@google/genai";
 import * as fs from "node:fs";
 import type { Dispatcher, RequestInit, Response } from "undici";
 import { ProxyAgent, fetch } from "undici";
+import { OpenAI } from "openai";
 
 /**
  * A common fetch implementation that uses a proxy if HTTPS_PROXY or https_proxy is set.
@@ -23,7 +24,7 @@ class FetchWithProxy {
   }
 
   createFetcher() {
-    return this.fetch.bind(this);
+    return this.fetch.bind(this) as any;
   }
 }
 
@@ -69,16 +70,35 @@ class GenAI extends GoogleGenAI {
   }
 }
 
-/**
- * The fetch should be optionally given by the classes who constructs `GenAI`
- */
-const genAi = new GenAI(apiKey, new FetchWithProxy().createFetcher());
+async function genAiExample() {
+  /**
+   * The fetch should be optionally given by the classes who constructs `GenAI`
+   */
+  const genAi = new GenAI(apiKey, new FetchWithProxy().createFetcher());
 
-// generate hello world
+  // generate hello world
 
-const response = await genAi.models.generateContent({
-  model: "gemini-2.5-flash",
-  contents: ["Hello, world!"],
-});
+  const response = await genAi.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: ["Hello, world!"],
+  });
 
-console.log(response.text);
+  console.log(response.text);
+}
+
+async function openAiExample() {
+  const openAi = new OpenAI({
+    apiKey,
+    baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+    fetch: new FetchWithProxy().createFetcher(),
+  });
+  const response = await openAi.chat.completions.create({
+    model: "gemini-2.5-flash",
+    messages: [{ role: "user", content: "Hello, world!" }],
+  });
+  console.log(response.choices[0].message.content);
+}
+
+// genAiExample()
+
+await openAiExample();
