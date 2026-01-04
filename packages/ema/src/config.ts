@@ -218,7 +218,7 @@ export class LLMConfig {
      * Model name used for chat agent.
      * If environment variable EMA_CHAT_MODEL is set, it will be used first.
      *
-     * @see {@link EMA_CHAT_PROVIDER} for examples.
+     * @see {@link chat_provider} for examples.
      */
     public chat_model: string = "gemini-2.5-flash",
     /**
