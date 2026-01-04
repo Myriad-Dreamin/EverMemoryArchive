@@ -23,9 +23,9 @@ describe("Config", () => {
       const config = Config.fromYaml(configPath);
 
       expect(config.llm.openai.key).toBe("test-openai-key");
-      expect(config.llm.openai.baseUrl).toBe("https://example.com/openai/v1/");
+      expect(config.llm.openai.base_url).toBe("https://example.com/openai/v1/");
       expect(config.llm.google.key).toBe("test-google-key");
-      expect(config.llm.google.baseUrl).toBe("https://example.com/google/v1/");
+      expect(config.llm.google.base_url).toBe("https://example.com/google/v1/");
       expect(config.llm.chat_model).toBe("test-model");
       expect(config.llm.chat_provider).toBe("openai");
 

@@ -31,7 +31,7 @@ export class GoogleClient extends LLMClientBase implements SchemaAdapter {
     const options: GoogleGenAIOptions = {
       apiKey: config.key,
       httpOptions: {
-        baseUrl: config.baseUrl,
+        baseUrl: config.base_url,
       },
     };
     this.client = new GoogleGenAI(options);

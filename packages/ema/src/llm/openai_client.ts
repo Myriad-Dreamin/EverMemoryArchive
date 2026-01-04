@@ -30,7 +30,7 @@ export class OpenAIClient extends LLMClientBase implements SchemaAdapter {
     super();
     const options: ClientOptions = {
       apiKey: config.key,
-      baseURL: config.baseUrl,
+      baseURL: config.base_url,
     };
     this.client = new OpenAI(options);
   }

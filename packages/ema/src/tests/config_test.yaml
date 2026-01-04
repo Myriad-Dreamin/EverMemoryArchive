@@ -1,10 +1,10 @@
 llm:
   openai:
     key: "test-openai-key"
-    baseUrl: "https://example.com/openai/v1/"
+    base_url: "https://example.com/openai/v1/"
   google:
     key: "test-google-key"
-    baseUrl: "https://example.com/google/v1/"
+    base_url: "https://example.com/google/v1/"
   chat_model: "test-model"
   chat_provider: "openai"
   retry:

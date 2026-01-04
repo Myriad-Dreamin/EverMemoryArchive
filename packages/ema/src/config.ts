@@ -93,7 +93,7 @@ export interface LLMApiConfig {
   /**
    * Base URL for the LLM provider.
    */
-  baseUrl: string;
+  base_url: string;
 }
 
 /**
@@ -105,7 +105,7 @@ export interface LLMApiConfig {
  * llm:
  *   openai:
  *     key: "sk-1234567890"
- *     baseUrl: "https://api.openai.com/v1"
+ *     base_url: "https://api.openai.com/v1"
  * ```
  *
  * @example
@@ -128,7 +128,7 @@ export class OpenAIApiConfig implements LLMApiConfig {
      *
      * If environment variable OPENAI_API_BASE is set, it will be used first.
      */
-    public baseUrl: string = "https://api.openai.com/v1",
+    public base_url: string = "https://api.openai.com/v1",
   ) {}
 }
 
@@ -141,7 +141,7 @@ export class OpenAIApiConfig implements LLMApiConfig {
  * llm:
  *   google:
  *     key: "sk-1234567890"
- *     baseUrl: "https://generativelanguage.googleapis.com"
+ *     base_url: "https://generativelanguage.googleapis.com"
  * ```
  *
  * @example
@@ -164,7 +164,7 @@ export class GoogleApiConfig implements LLMApiConfig {
      *
      * If environment variable GEMINI_API_BASE is set, it will be used first.
      */
-    public baseUrl: string = "https://generativelanguage.googleapis.com",
+    public base_url: string = "https://generativelanguage.googleapis.com",
   ) {}
 }
 
@@ -363,13 +363,13 @@ export class Config {
       this.llm.openai.key = process.env.OPENAI_API_KEY;
     }
     if (process.env.OPENAI_API_BASE) {
-      this.llm.openai.baseUrl = process.env.OPENAI_API_BASE;
+      this.llm.openai.base_url = process.env.OPENAI_API_BASE;
     }
     if (process.env.GEMINI_API_KEY) {
       this.llm.google.key = process.env.GEMINI_API_KEY;
     }
     if (process.env.GEMINI_API_BASE) {
-      this.llm.google.baseUrl = process.env.GEMINI_API_BASE;
+      this.llm.google.base_url = process.env.GEMINI_API_BASE;
     }
     if (process.env.HTTPS_PROXY) {
       this.system.https_proxy = process.env.HTTPS_PROXY;
