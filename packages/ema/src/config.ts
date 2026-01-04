@@ -424,7 +424,7 @@ export class Config {
       const result = { ...target };
       for (const key in source) {
         if (!isNullish(source[key])) {
-          result[key] = source[key];
+          result[key] = deepMerge(result[key], source[key]);
         }
       }
       return result;
