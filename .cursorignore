@@ -17,6 +17,7 @@ lancedb/
 logs/
 history/
 sessions/
+.data/
 
 # --- System/Cache ---
 __pycache__/
