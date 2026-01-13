@@ -30,13 +30,21 @@ export interface AgentState {
    */
   systemPrompt: string;
   /**
-   * The history of the agent.
+   * The messages of the agent to start with.
    */
-  history: Message[];
+  messages: Message[];
   /**
    * The tools of the agent.
    */
   tools: Tool[];
+}
+
+export interface MutatableAgentState extends AgentState {
+  /**
+   * Replaces the state with a new state.
+   * @param s - The state to replace with.
+   */
+  replace(s: AgentState): void;
 }
 
 /**
@@ -75,7 +83,7 @@ export interface AgentState {
  * ```
  */
 export type AgentStateCallback<S extends AgentState> = (
-  state: S,
+  state: S & MutatableAgentState,
   next: () => Promise<void>,
 ) => Promise<S>;
 
@@ -108,7 +116,7 @@ export abstract class Agent<S extends AgentState = AgentState> {
    */
   execute(state: S): Promise<void> {
     return this.run(async (s, next) => {
-      s = state;
+      s.replace(state);
       await next();
       return s;
     });
@@ -122,7 +130,7 @@ export abstract class Agent<S extends AgentState = AgentState> {
    */
   runWithMessage(message: Message): Promise<void> {
     return this.run(async (s, next) => {
-      s.history.push(message);
+      s.messages.push(message);
       await next();
       return s;
     });
