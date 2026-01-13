@@ -12,9 +12,14 @@ export interface EmaLLMClient {
    *
    * @param messages - List of conversation messages
    * @param tools - Optional list of Tool objects or dicts
+   * @param systemPrompt - Optional system prompt to start with
    * @returns LLMResponse containing the generated content, thinking, and tool calls
    */
-  generate(messages: Message[], tools?: Tool[]): Promise<LLMResponse>;
+  generate(
+    messages: Message[],
+    tools?: Tool[],
+    systemPrompt?: string,
+  ): Promise<LLMResponse>;
 }
 
 // TODO: definition of tools.
