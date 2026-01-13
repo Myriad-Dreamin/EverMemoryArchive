@@ -26,6 +26,10 @@ export type Tool = any;
  */
 export interface AgentState {
   /**
+   * The system prompt of the agent.
+   */
+  systemPrompt: string;
+  /**
    * The history of the agent.
    */
   history: Message[];
@@ -97,7 +101,21 @@ export abstract class Agent<S extends AgentState = AgentState> {
   abstract stop(): Promise<void>;
 
   /**
-   * Runs the agent with a message in OpenAI format.
+   * Runs the agent in stateless manner.
+   *
+   * @param state - The state to run the agent with.
+   * @returns Promise resolving when the agent is idle.
+   */
+  execute(state: S): Promise<void> {
+    return this.run(async (s, next) => {
+      s = state;
+      await next();
+      return s;
+    });
+  }
+
+  /**
+   * Runs the agent with an additional message in OpenAI format.
    *
    * @param message - The message to add.
    * @returns Promise resolving when the agent is idle.
